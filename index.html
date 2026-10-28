@@ -2,10 +2,63 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=, initial-scale=1.0">
-    <title>Document</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Torque Center Auto Center</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    
+    <!-- TELA DE LOGIN (visível inicialmente) -->
+    <section id="tela-login" class="tela-ativa">
+        <div class="login-box">
+            <h1>Torque Center</h1>
+            <p class="slogan">Do diagnóstico à entrega, sem surpresas no orçamento</p>
+            
+            <form id="form-login">
+                <div class="campo">
+                    <label for="email">E-mail</label>
+                    <input type="email" id="email" name="email" required placeholder="kaue83171@gmail.com">
+                </div>
+                <div class="campo">
+                    <label for="password">Senha</label>
+                    <input type="password" id="password" name="password" required placeholder="12345678">
+                </div>
+                <button type="submit" class="btn-primary">Entrar</button>
+                <p class="mensagem-erro" id="erro-login">Credenciais inválidas. Tente novamente.</p>
+            </form>
+
+            <details class="credenciais-teste">
+                <summary>Ver credenciais de teste</summary>
+                    <small>preencher no js</small>
+            </details>
+        </div>
+    </section>
+
+    <!-- TELA PRINCIPAL (hidden até logar) -->
+    <section id="tela-principal" class="tela">
+        <header class="topbar">
+            <div class="topbar-esquerda">
+                <h1>Torque Center</h1>
+                <span id="usuario-logado" class="badge-usuario"></span>
+            </div>
+            <div class="topbar-direita">
+                <button id="btn-sair" class="btn-logout">Sair</button>
+            </div>
+        </header>
+
+        <div class="layout">
+             <!-- Menu lateral (navigation) -->
+            <nav id="menu-lateral" class="manu-lateral">
+                <!-- Itens injetados via Js corforme perfil -->
+            </nav>
+
+            <!-- área de conteudo principal -->
+            <main id="conteudo-principal" class="conteudo-principal">
+                <!-- Conteúdo injetado via Js conforme perfil -->
+            </main>
+        </div>
+    </section>
+
+
+    script src="script.js"></script>       
 </body>
 </html>
