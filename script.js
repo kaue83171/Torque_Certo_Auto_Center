@@ -2,20 +2,22 @@
 /* ---------- 1. DADOS ----------
    Cada produto/serviço é um objeto dentro de uma lista (array).*/
 const PRODUTOS = [
-    { id: 1,  categoria: "carros",   nome: "Câmbio manual / Cx de marcha Chevrolet Vectra 2.0 1998", imagem: "" },
-    { id: 2,  categoria: "carros",   nome: "Peças para carro",                imagem: "" },
-    { id: 3,  categoria: "carros",   nome: "Troca de óleo",                   imagem: "" },
-    { id: 4,  categoria: "motos",    nome: "Amortecedor CG Titan Fan 150 (par)", imagem: "" },
-    { id: 5,  categoria: "motos",    nome: "Peças para moto",                 imagem: "" },
+    // Serviços do PDF
+    { id: 1,  categoria: "servicos", nome: "Revisão preventiva",              imagem: "/img/serv-revisao.jpg" },
+    { id: 2,  categoria: "servicos", nome: "Freios",                          imagem: "/img/serv-freio.png" },
+    { id: 3,  categoria: "servicos", nome: "Suspensão e direção",             imagem: "img/serv/serv-susp_dire.png" },
+    { id: 4,  categoria: "servicos", nome: "Alinhamento e balanceamento",     imagem: "img/serv/serv-alinha_balanc.png" },
+    { id: 5, categoria: "servicos", nome: "Elétrica e injeção",              imagem: "img/serv/serv-eletr_inje.png" },
+    { id: 6, categoria: "servicos", nome: "Motor e câmbio",                  imagem: "/img/serv/serv-motor_camb.png" },
+    { id: 7, categoria: "servicos" , nome: "Troca de óleo",                   imagem: "img/serv/serv-troleo.png" },
 
-    // Serviços do PDF (seção 2.2)
-    { id: 6,  categoria: "servicos", nome: "Revisão preventiva",              imagem: "" },
-    { id: 7,  categoria: "servicos", nome: "Freios",                          imagem: "" },
-    { id: 8,  categoria: "servicos", nome: "Suspensão e direção",             imagem: "" },
-    { id: 9,  categoria: "servicos", nome: "Alinhamento e balanceamento",     imagem: "" },
-    { id: 10, categoria: "servicos", nome: "Elétrica e injeção",              imagem: "" },
-    { id: 11, categoria: "servicos", nome: "Motor e câmbio",                  imagem: "" },
+    // Produtos
+    { id: 8,  categoria: "carros",   nome: "Câmbio manual / Cx de marcha Chevrolet Vectra 2.0 1998", imagem: "" },
+    { id: 9,  categoria: "carros",   nome: "Peças para carro",                imagem: "" },
+    { id: 10, categoria: "motos",    nome: "Amortecedor CG Titan Fan 150 (par)", imagem: "" },
+    { id: 11, categoria: "motos",    nome: "Peças para moto",                 imagem: "" },
 ];
+
 
 // [chave usada em "categoria", título mostrado na tela]
 const SECOES = [

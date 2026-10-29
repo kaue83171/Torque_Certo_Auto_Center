@@ -3,6 +3,7 @@
   --laranja: #e8731c;
   --azul: #1c2a4a;
   --cinza: #cfd6df;
+  --azul-claro: #67d4ff;
 }
 * { box-sizing: border-box; margin: 0; }
 
@@ -50,7 +51,7 @@ button { font-family: inherit; cursor: pointer; }
 .abas-links { display: flex; flex-wrap: wrap; gap: 44px; margin-left: 40px; }
 .aba { background: none; border: 0; font-size: 1rem; font-weight: 600; color: #0f1a33; padding: 4px 0; }
 .aba.ativa {
-  color: var(--laranja);
+  color: var(--azul-claro);
   text-decoration: underline; text-decoration-thickness: 3px; text-underline-offset: 5px;
 }
 .busca-carrinho { display: flex; align-items: center; gap: 14px; }
@@ -88,6 +89,7 @@ button { font-family: inherit; cursor: pointer; }
   width: 100%; height: 136px; overflow: hidden; border-radius: 28px;
   background: linear-gradient(135deg, #2b3a63, #1c2a4a);
   display: grid; place-items: center; font-size: 2.6rem;
+  border: 2px solid var(--cinza); color: var(--cinza);
 }
 .foto::before { content: "⚙️"; opacity: .55; }
 .foto:has(img)::before { content: none; }   /* se tem imagem, esconde a engrenagem */
