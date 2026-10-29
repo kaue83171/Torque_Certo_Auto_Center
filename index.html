@@ -3,81 +3,103 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Torque Center Auto Center</title>
+    <title>Torque Certo Auto Center</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <!-- Cabeçalho: menu, logo, botão de entrada e icones -->
-     <header class="topo">
-        <button class="manu" aria-label="menu"></button><span></span><span></span><span></span></button>
+
+    <!-- ===== CABEÇALHO: menu, logo, botão de entrada e ícones ===== -->
+    <header class="topo">
+        <!-- Menu "hambúrguer": 3 risquinhos (span) DENTRO do botão -->
+        <button class="menu" id="btn-menu" aria-label="Menu">
+            <span></span><span></span><span></span>
+        </button>
+
         <a class="marca" href="#">
-            <span class="logo">TC</span>
+            <!-- Logo em SVG: um círculo tracejado grosso vira os "dentes" da engrenagem -->
+            <span class="logo" aria-hidden="true">
+                <svg viewBox="0 0 64 64">
+                    <circle cx="32" cy="32" r="21" fill="none" stroke="#f08a24" stroke-width="9" stroke-dasharray="8.2 8.2"/>
+                    <circle cx="32" cy="32" r="18" fill="#f08a24"/>
+                    <circle cx="32" cy="32" r="13" fill="#1c2a4a"/>
+                    <text x="32" y="37" text-anchor="middle" font-size="14" font-weight="700" fill="#fff" font-family="Poppins, sans-serif">TC</text>
+                </svg>
+            </span>
             <span class="marca-texto">
-                <strong>Torque Center</strong>
-                <small>"Do diagnóstico à entrga, sem surpresas no orçamento."</small>
+                <strong>Torque Certo Auto Center</strong>
+                <small>"Do diagnóstico à entrega, sem surpresas no orçamento."</small>
             </span>
         </a>
+
         <div class="acoes">
-            <button id="btn-entrar" class="btn-pilula">Entrar</button>
-            <button id="btn-agenda" class="icone" aria-label="Meus Agendamentos">◷</button>
-            <a class="icone" href="/img/icons/icon_insta.png" target="_blank" rel="noopener" aria-label="Instagram">
-                <Img src="img/icons/icon_insta.png" alt="">
+            <button id="btn-entrar" class="btn-pilula" type="button">Entrar</button>
+
+            <button id="btn-agenda" class="icone" type="button" aria-label="Meus agendamentos">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="4" width="14" height="15" rx="2"/><path d="M3 9h14M7 2v4M13 2v4"/><circle cx="18" cy="17" r="4" fill="#cfd6df"/><path d="M18 15v2l1.3 1"/></svg>
+            </button>
+
+            <!-- TROQUE o link abaixo pelo Instagram real da oficina -->
+            <a class="icone" href="https://www.instagram.com/" target="_blank" rel="noopener" aria-label="Instagram">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.3" cy="6.7" r=".8" fill="currentColor"/></svg>
             </a>
-            <a class="icone" href="/img/icons/icon_whts.png" target="_blank" rel="noopener" aria-label="WhatsApp">
-                <Img src="img/icons/icon_whts.png" alt="">
+
+            <!-- TROQUE o número: 55 + DDD + telefone, só dígitos -->
+            <a class="icone" href="https://wa.me/5500000000000" target="_blank" rel="noopener" aria-label="WhatsApp">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21l1.6-4.8A9 9 0 1 1 8 19.5L3 21z"/><path d="M9 8.5c0 3.500 3 6.500 6.500 6.500l1-1.500-2-1-1 .8c-1-.4-2-1.400-2.400-2.400l.8-1-1-2z" fill="currentColor" stroke="none"/></svg>
             </a>
         </div>
-     </header>
+    </header>
 
-     <!-- ABAS + PESQUISA + CARRINHO -->
-      <nav class="abas">
+    <!-- ===== ABAS + PESQUISA + CARRINHO ===== -->
+    <nav class="abas">
         <div class="abas-links">
-          <button class="aba ativa" data-aba="geral">Geral</button>
-          <button class="aba" data-aba="carros">Carros</button>
-          <button class="aba" data-aba="motos">Motos</button>
-          <button class="aba" data-aba="servicos">Serviços</button>
+            <button class="aba ativa" data-aba="geral">Geral</button>
+            <button class="aba" data-aba="carros">Carros</button>
+            <button class="aba" data-aba="motos">Motos</button>
+            <button class="aba" data-aba="servicos">Serviços</button>
         </div>
         <div class="busca-carrinho">
             <label class="busca">
                 <input id="busca" type="search" placeholder="Pesquisa" aria-label="Pesquisar">
                 <span aria-hidden="true">🔍</span>
             </label>
-             <button id="btn-carrinho" class="carrinho" aria-label="Carrinho">🛒 <span id="qtd-carrinho">0</span></button>
+            <button id="btn-carrinho" class="carrinho" type="button" aria-label="Carrinho">🛒 <span id="qtd-carrinho">0</span></button>
         </div>
-      </nav>
-    
-      <!-- O JavaScript desenha os cards aqui dentro -->
-       <main id="catalago"></main>
+    </nav>
 
-       <!-- MODAL DE CONTA -->
-        <dialog id="modal-conta" class="modal">
-            <header class="modal-topo">
-                <h2>Minha Conta</h2>
-            <button type="button" class="fechar" dara-fechar aria-label="Fechar">X</button>
-            </header>
-            <div class="modal-abas">
-                <button type="button" class="modal-aba ativa" data-painel="entrar">Entrar</button>
-                <button type="button" class="modal-aba" data-painel="criar">Cadastrar</button>
-            </div>
+    <!-- O JavaScript desenha os cards aqui dentro (o id precisa ser igual no CSS e no JS!) -->
+    <main id="catalogo"></main>
 
-            <form id="form-entrar" class="painel" data-painel="entrar">
-                <label>Telefone:<input name="telefone" type="tel" placeholder="(55) 90000-0000" required></label>
-                <label>Senha:<input name="senha" type="password" placeholder="Digite sua senha" required></label>
-                <p class="erro" data-erro>entrar</p>
-                <button class="btn-principal" type="submit">Entrar</button>
-            </form>
+    <!-- ===== MODAL DE CONTA ===== -->
+    <dialog id="modal-conta" class="modal">
+        <header class="modal-topo">
+            <h2>Minha Conta</h2>
+            <button type="button" class="fechar" data-fechar aria-label="Fechar">✕</button>
+        </header>
 
-            <form id="form-criar" class="painel" data-painel="criar" hidden>
-                <label>Nome Completo:<input name="nome" type="text" required></label>
-                <label>Telefone(whatsapp):<input name="telefone" type="tel" placeholder="(55) 90000-0000" required></label>
-                <label>Senha:<input name="senha" type="password" minlength="4" required></label>
-                <p class="dica">Sua conta fica salva neste dispositivo.</p>
-                <p class="erro" data-erro="criar"></p>
-                <button class="btn-principal" type="submit">Cadastrar</button>
-            </form>
-        </dialog>
+        <div class="modal-abas">
+            <button type="button" class="modal-aba ativa" data-painel="entrar">Entrar</button>
+            <button type="button" class="modal-aba" data-painel="criar">Cadastrar</button>
+        </div>
 
-        <script src="script.js"></script>
+        <form id="form-entrar" class="painel" data-painel="entrar">
+            <label>Telefone:<input name="telefone" type="tel" placeholder="(55) 90000-0000" required></label>
+            <label>Senha:<input name="senha" type="password" placeholder="Digite sua senha" required></label>
+            <p class="erro" data-erro="entrar"></p>
+            <button class="btn-principal" type="submit">Entrar</button>
+        </form>
+
+        <form id="form-criar" class="painel" data-painel="criar" hidden>
+            <label>Nome completo:<input name="nome" type="text" required></label>
+            <label>Telefone (WhatsApp):<input name="telefone" type="tel" placeholder="(55) 90000-0000" required></label>
+            <label>Senha:<input name="senha" type="password" minlength="4" required></label>
+            <p class="dica">Sua conta fica salva neste dispositivo.</p>
+            <p class="erro" data-erro="criar"></p>
+            <button class="btn-principal" type="submit">Cadastrar</button>
+        </form>
+    </dialog>
+
+    <script src="script.js"></script>
 </body>
 </html>
