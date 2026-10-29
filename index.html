@@ -4,61 +4,80 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Torque Center Auto Center</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <!-- TELA DE LOGIN (visível inicialmente) -->
-    <section id="tela-login" class="tela-ativa">
-        <div class="login-box">
-            <h1>Torque Center</h1>
-            <p class="slogan">Do diagnóstico à entrega, sem surpresas no orçamento</p>
-            
-            <form id="form-login">
-                <div class="campo">
-                    <label for="email">E-mail</label>
-                    <input type="email" id="email" name="email" required placeholder="kaue83171@gmail.com">
-                </div>
-                <div class="campo">
-                    <label for="password">Senha</label>
-                    <input type="password" id="password" name="password" required placeholder="12345678">
-                </div>
-                <button type="submit" class="btn-primary">Entrar</button>
-                <p class="mensagem-erro" id="erro-login">Credenciais inválidas. Tente novamente.</p>
+    <!-- Cabeçalho: menu, logo, botão de entrada e icones -->
+     <header class="topo">
+        <button class="manu" aria-label="menu"></button><span></span><span></span><span></span></button>
+        <a class="marca" href="#">
+            <span class="logo">TC</span>
+            <span class="marca-texto">
+                <strong>Torque Center</strong>
+                <small>"Do diagnóstico à entrga, sem surpresas no orçamento."</small>
+            </span>
+        </a>
+        <div class="acoes">
+            <button id="btn-entrar" class="btn-pilula">Entrar</button>
+            <button id="btn-agenda" class="icone" aria-label="Meus Agendamentos">◷</button>
+            <a class="icone" href="https://www.instagram.com/" target="_blank" rel="noopener" aria-label="Instagram">
+                <Img src="img/icons/icon_insta.png" alt="">
+            </a>
+            <a class="icone" href="https://web.whatsapp.com/" target="_blank" rel="noopener" aria-label="WhatsApp">
+                <Img src="img/icons/icon_whts.png" alt="">
+            </a>
+        </div>
+     </header>
+
+     <!-- ABAS + PESQUISA + CARRINHO -->
+      <nav class="abas">
+        <div class="abas-links">
+          <button class="aba ativa" data-aba="geral">Geral</button>
+          <button class="aba" data-aba="carros">Carros</button>
+          <button class="aba" data-aba="motos">Motos</button>
+          <button class="aba" data-aba="servicos">Serviços</button>
+        </div>
+        <div class="busca-carrinho">
+            <label class="busca">
+                <input id="busca" type="search" placeholder="Pesquisa" aria-label="Pesquisar">
+                <span aria-hidden="true">🔍</span>
+            </label>
+             <button id="btn-carrinho" class="carrinho" aria-label="Carrinho">🛒 <span id="qtd-carrinho">0</span></button>
+        </div>
+      </nav>
+    
+      <!-- O JavaScript desenha os cards aqui dentro -->
+       <main id="catalago"></main>
+
+       <!-- MODAL DE CONTA -->
+        <dialog id="modal-conta" class="modal">
+            <header class="modal-topo">
+                <h2>Minha Conta</h2>
+            <button type="button" class="fechar" dara-fechar aria-label="Fechar">X</button>
+            </header>
+            <div class="modal-abas">
+                <button type="button" class="modal-aba ativa" data-painel="entrar">Entrar</button>
+                <button type="button" class="modal-aba" data-painel="criar">Cadastrar</button>
+            </div>
+
+            <form id="form-entrar" class="painel" data-painel="entrar">
+                <label>Telefone:<input name="telefone" type="tel" placeholder="(55) 90000-0000" required></label>
+                <label>Senha:<input name="senha" type="password" placeholder="Digite sua senha" required></label>
+                <p class="erro" data-erro>entrar</p>
+                <button class="btn-principal" type="submit">Entrar</button>
             </form>
 
-            <details class="credenciais-teste">
-                <summary>Ver credenciais de teste</summary>
-                    <small>preencher no js</small>
-            </details>
-        </div>
-    </section>
+            <form id="form-criar" class="painel" data-painel="criar" hidden>
+                <label>Nome Completo:<input name="nome" type="text" required></label>
+                <label>Telefone(whatsapp):<input name="telefone" type="tel" placeholder="(55) 90000-0000" required></label>
+                <label>Senha:<input name="senha" type="password" minlength="4" required></label>
+                <p class="dica">Sua conta fica salva neste dispositivo.</p>
+                <p class="erro" data-erro="criar"></p>
+                <button class="btn-principal" type="submit">Cadastrar</button>
+            </form>
+        </dialog>
 
-    <!-- TELA PRINCIPAL (hidden até logar) -->
-    <section id="tela-principal" class="tela">
-        <header class="topbar">
-            <div class="topbar-esquerda">
-                <h1>Torque Center</h1>
-                <span id="usuario-logado" class="badge-usuario"></span>
-            </div>
-            <div class="topbar-direita">
-                <button id="btn-sair" class="btn-logout">Sair</button>
-            </div>
-        </header>
-
-        <div class="layout">
-             <!-- Menu lateral (navigation) -->
-            <nav id="menu-lateral" class="manu-lateral">
-                <!-- Itens injetados via Js corforme perfil -->
-            </nav>
-
-            <!-- área de conteudo principal -->
-            <main id="conteudo-principal" class="conteudo-principal">
-                <!-- Conteúdo injetado via Js conforme perfil -->
-            </main>
-        </div>
-    </section>
-
-
-    script src="script.js"></script>       
+        <script src="script.js"></script>
 </body>
 </html>
