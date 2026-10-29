@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,12 +8,14 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
     <!-- ===== CABEÇALHO: menu, logo, botão de entrada e ícones ===== -->
     <header class="topo">
         <div class="container topo-conteudo">
-            <button class="menu" id="btn-menu" type="button" aria-label="Abrir menu" aria-controls="menu-principal" aria-expanded="false">
+            <button class="menu" id="btn-menu" type="button" aria-label="Abrir menu" aria-controls="menu-principal"
+                aria-expanded="false">
                 <span></span><span></span><span></span>
             </button>
             <a class="marca" href="#inicio">
@@ -25,11 +28,16 @@
             <div class="acoes">
                 <button id="btn-entrar" class="btn-pilula" type="button">Entrar</button>
                 <button id="btn-agenda" class="icone" type="button" aria-label="Meus agendamentos">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M7 3v4m10-4v4M3 11h18M9 15h6"/></svg>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+                        <rect x="3" y="5" width="18" height="16" rx="2" />
+                        <path d="M7 3v4m10-4v4M3 11h18M9 15h6" />
+                    </svg>
                 </button>
-                
+
                 <button id="btn-carrinho" class="carrinho" type="button" aria-label="Abrir carrinho">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="m3 3 2 2 3 12h11l2-10H6M9 21h.01M18 21h.01"/></svg>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+                        <path d="m3 3 2 2 3 12h11l2-10H6M9 21h.01M18 21h.01" />
+                    </svg>
                     <span>Carrinho</span><span id="qtd-carrinho" aria-live="polite">0</span>
                 </button>
             </div>
@@ -45,15 +53,18 @@
                 <a class="btn-principal" href="#area-catalogo">Explorar catálogo <span aria-hidden="true">↗</span></a>
             </div>
             <div class="hero-foto">
-                <img src="img\serv\serv-alinha_balanc.png" alt="Profissional realizando a troca de óleo de um carro">
-                
+                <img src="img/serv/serv-alinha_balanc.png" alt="Profissional realizando a troca de óleo de um carro">
+
             </div>
         </section>
 
         <!-- cria a lateral de filtros e a área dos cards. -->
         <section id="area-catalogo" aria-labelledby="titulo-catalogo">
             <div class="catalogo-topo">
-                <div><p class="etiqueta">PEÇAS & MANUTENÇÃO</p><h2 id="titulo-catalogo">Encontre o que você precisa</h2></div>
+                <div>
+                    <p class="etiqueta">PEÇAS & MANUTENÇÃO</p>
+                    <h2 id="titulo-catalogo">Encontre o que você precisa</h2>
+                </div>
                 <p>Um cuidado a mais.<br>Uma preocupação a menos.</p>
             </div>
             <div class="layout-catalogo">
@@ -65,22 +76,30 @@
                         <button class="aba" type="button" data-aba="servicos" aria-pressed="false">Serviços</button>
                     </nav>
                     <label class="busca">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="10" cy="10" r="6"/><path d="m15 15 5 5"/></svg>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+                            aria-hidden="true">
+                            <circle cx="10" cy="10" r="6" />
+                            <path d="m15 15 5 5" />
+                        </svg>
                         <input id="busca" type="search" placeholder="Pesquisar" aria-label="Pesquisar peças e serviços">
                     </label>
                 </aside>
                 <div class="catalogo-conteudo">
                     <p id="resultados" class="resultados" aria-live="polite"></p>
-                    
+                    <!-- O JavaScript desenha os cards -->
                     <div id="catalogo"></div>
                 </div>
             </div>
         </section>
         <section class="sobre" id="sobre" aria-labelledby="titulo-sobre">
-            <div><p class="etiqueta">MANUTENÇÃO COM TRANSPARÊNCIA</p><h2 id="titulo-sobre">Seu veículo merece atenção.</h2><p>Revisão preventiva, freios, suspensão, alinhamento e diagnóstico.</p></div>
+            <div>
+                <p class="etiqueta">MANUTENÇÃO COM TRANSPARÊNCIA</p>
+                <h2 id="titulo-sobre">Seu veículo merece atenção.</h2>
+                <p>Revisão preventiva, freios, suspensão, alinhamento e diagnóstico.</p>
+            </div>
             <a href="#area-catalogo">Ver catálogo ↗</a>
         </section>
-        
+
     </main>
 
     <!-- O JavaScript desenha os cards aqui dentro (o id precisa ser igual no CSS e no JS!) -->
@@ -88,31 +107,60 @@
 
     <!-- ===== MODAL DE CONTA ===== -->
     <dialog id="modal-conta" class="modal" aria-labelledby="titulo-conta">
-        <header class="modal-topo"><h2 id="titulo-conta">Minha conta</h2><button type="button" class="fechar" data-fechar aria-label="Fechar">×</button></header>
+        <header class="modal-topo">
+            <h2 id="titulo-conta">Minha conta</h2><button type="button" class="fechar" data-fechar
+                aria-label="Fechar">×</button>
+        </header>
         <p class="dica aviso-demo">Simulação local para apresentação. Use nome, telefone e senha fictícios.</p>
-        <div class="modal-abas"><button type="button" class="modal-aba ativa" data-painel="entrar" aria-pressed="true">Entrar</button><button type="button" class="modal-aba" data-painel="criar" aria-pressed="false">Cadastrar</button></div>
+        <div class="modal-abas"><button type="button" class="modal-aba ativa" data-painel="entrar"
+                aria-pressed="true">Entrar</button><button type="button" class="modal-aba" data-painel="criar"
+                aria-pressed="false">Cadastrar</button></div>
         <form id="form-entrar" class="painel" data-painel="entrar">
-            <label>Telefone:<input name="telefone" type="tel" placeholder="(55) 90000-0000" required autocomplete="off"></label>
-            <label>Senha fictícia:<input name="senha" type="password" placeholder="Digite sua senha de teste" required autocomplete="off"></label>
-            <p class="erro" data-erro="entrar" role="alert"></p><button class="btn-principal" type="submit">Entrar</button>
+            <label>Telefone:<input name="telefone" type="tel" placeholder="(55) 90000-0000" required
+                    autocomplete="off"></label>
+            <label>Senha fictícia:<input name="senha" type="password" placeholder="Digite sua senha de teste" required
+                    autocomplete="off"></label>
+            <p class="erro" data-erro="entrar" role="alert"></p><button class="btn-principal"
+                type="submit">Entrar</button>
         </form>
         <form id="form-criar" class="painel" data-painel="criar" hidden>
             <label>Nome de teste:<input name="nome" type="text" required maxlength="60" autocomplete="off"></label>
-            <label>Telefone fictício:<input name="telefone" type="tel" placeholder="(55) 90000-0000" required autocomplete="off"></label>
+            <label>Telefone fictício:<input name="telefone" type="tel" placeholder="(55) 90000-0000" required
+                    autocomplete="off"></label>
             <label>Senha fictícia:<input name="senha" type="password" minlength="4" required autocomplete="off"></label>
             <p class="dica">Os dados deste teste ficam salvos neste navegador.</p>
-            <p class="erro" data-erro="criar" role="alert"></p><button class="btn-principal" type="submit">Cadastrar</button>
+            <p class="erro" data-erro="criar" role="alert"></p><button class="btn-principal"
+                type="submit">Cadastrar</button>
         </form>
     </dialog>
     <dialog id="modal-carrinho" class="modal" aria-labelledby="titulo-carrinho">
-        <header class="modal-topo"><h2 id="titulo-carrinho">Seu carrinho</h2><button type="button" class="fechar" data-fechar aria-label="Fechar">×</button></header>
-        <div class="modal-corpo"><p class="dica">Seleção para demonstração de orçamento. Nenhum pedido é enviado.</p><div id="itens-carrinho"></div><div class="modal-rodape"><button type="button" id="limpar-carrinho" class="btn-secundario">Limpar carrinho</button><button type="button" class="btn-principal" data-fechar>Continuar explorando</button></div></div>
+        <header class="modal-topo">
+            <h2 id="titulo-carrinho">Seu carrinho</h2><button type="button" class="fechar" data-fechar
+                aria-label="Fechar">×</button>
+        </header>
+        <div class="modal-corpo">
+            <p class="dica">Seleção para demonstração de orçamento. Nenhum pedido é enviado.</p>
+            <div id="itens-carrinho"></div>
+            <div id="total-carrinho" class="carrinho-total" aria-live="polite" hidden></div>
+            <div class="modal-rodape"><button type="button" id="limpar-carrinho" class="btn-secundario">Limpar
+                    carrinho</button><button type="button" class="btn-principal" data-fechar>Continuar
+                    explorando</button></div>
+        </div>
     </dialog>
     <dialog id="modal-agenda" class="modal" aria-labelledby="titulo-agenda">
-        <header class="modal-topo"><h2 id="titulo-agenda">Meus agendamentos</h2><button type="button" class="fechar" data-fechar aria-label="Fechar">×</button></header>
-        <div class="modal-corpo"><p>A tela de escolha de data, horário e veículo será uma próxima etapa. Este protótipo ainda não realiza agendamentos.</p><div class="modal-rodape"><button type="button" class="btn-principal" data-fechar>Voltar ao catálogo</button></div></div>
+        <header class="modal-topo">
+            <h2 id="titulo-agenda">Meus agendamentos</h2><button type="button" class="fechar" data-fechar
+                aria-label="Fechar">×</button>
+        </header>
+        <div class="modal-corpo">
+            <p>A tela de escolha de data, horário e veículo será uma próxima etapa. Este protótipo ainda não realiza
+                agendamentos.</p>
+            <div class="modal-rodape"><button type="button" class="btn-principal" data-fechar>Voltar ao
+                    catálogo</button></div>
+        </div>
     </dialog>
     <p id="aviso" class="aviso" role="status" aria-live="polite"></p>
     <script src="script.js"></script>
 </body>
+
 </html>

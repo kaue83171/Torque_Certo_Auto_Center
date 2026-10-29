@@ -167,8 +167,8 @@ document.querySelector(".abas-links").addEventListener("click", (e) => {
 // Pesquisa: filtra enquanto digita
 campoBusca.addEventListener("input", renderizar);
 
-/* ----------CARRINHO ----------*/
-/* ---------- 7. CARRINHO ----------
+
+/* ---------- . CARRINHO ----------
    Os cards são criados pelo JS, então usamos "delegação de eventos":
    um único listener no catálogo descobre qual botão "+" foi clicado. */
 catalogo.addEventListener("click", (e) => {
@@ -347,6 +347,22 @@ document.getElementById("form-entrar").addEventListener("submit", (e) => {
     e.target.reset();
     entrar(usuario);
 });
+
+/* ---------- MODAIS (fechar) ----------*/
+document.addEventListener("click", (e) => {
+    const fechar = e.target.closest("[data-fechar]");
+    if (fechar) fechar.closest("dialog").close();
+});
+document.querySelectorAll("dialog").forEach((modal) => {
+    modal.addEventListener("click", (e) => {
+        if (e.target !== modal) return; // clicou dentro do conteúdo
+        const r = modal.getBoundingClientRect();
+        const fora = e.clientX < r.left || e.clientX > r.right || e.clientY < r.top || e.clientY > r.bottom;
+        if (fora) modal.close();
+    });
+});
+
+btnAgenda.addEventListener("click", () => modalAgenda.showModal());
 
 /* ----------INÍCIO ---------- */
 renderizar();
