@@ -1,13 +1,6 @@
-/* ==========================================================
-   TORQUE CERTO AUTO CENTER — script.js
-   Tudo é salvo no localStorage (exigência da atividade).
-   ========================================================== */
 
 /* ---------- 1. DADOS ----------
-   Cada produto/serviço é um objeto dentro de uma lista (array).
-   O HTML dos cards é gerado a partir dela, então para adicionar
-   um item novo basta incluir uma linha aqui.
-   (Cada linha precisa terminar com "}," — vírgula e chave fechada!) */
+   Cada produto/serviço é um objeto dentro de uma lista (array).*/
 const PRODUTOS = [
     { id: 1,  categoria: "carros",   nome: "Câmbio manual / Cx de marcha Chevrolet Vectra 2.0 1998", imagem: "" },
     { id: 2,  categoria: "carros",   nome: "Peças para carro",                imagem: "" },
@@ -31,9 +24,7 @@ const SECOES = [
     ["servicos", "Serviços"],
 ];
 
-/* ---------- 2. FUNÇÕES DO localStorage ----------
-   O localStorage só guarda texto, por isso usamos
-   JSON.stringify (objeto -> texto) e JSON.parse (texto -> objeto). */
+/* ---------- FUNÇÕES DO localStorage ---------- */
 function ler(chave, padrao) {
     try {
         const valor = JSON.parse(localStorage.getItem(chave));
@@ -46,22 +37,21 @@ function salvar(chave, valor) {
     localStorage.setItem(chave, JSON.stringify(valor));
 }
 
-/* ---------- 3. ESTADO (o que muda enquanto o site é usado) ---------- */
+/* ---------- ESTADO (o que muda enquanto o site é usado) ---------- */
 let abaAtual = "geral";
 let carrinho = ler("tc_carrinho", []);  // [{ id, qtd }]
 let usuarios = ler("tc_usuarios", []);  // [{ nome, telefone, senha }]
 let sessao = ler("tc_sessao", null);    // usuário logado ou null
 
-/* ---------- 4. ELEMENTOS DA PÁGINA ---------- */
+/* ---------- ELEMENTOS DA PÁGINA ---------- */
 const catalogo = document.getElementById("catalogo");
 const campoBusca = document.getElementById("busca");
 const qtdCarrinho = document.getElementById("qtd-carrinho");
 const btnEntrar = document.getElementById("btn-entrar");
 const modalConta = document.getElementById("modal-conta");
 
-/* ---------- 5. CATÁLOGO ---------- */
+/* ----------  CATÁLOGO ---------- */
 function cardHTML(p) {
-    // Se a imagem não carregar, ela some e aparece o fundo com engrenagem do CSS
     const foto = p.imagem ? `<img src="${p.imagem}" alt="" onerror="this.remove()">` : "";
     return `<button class="card" data-id="${p.id}" title="Adicionar ao carrinho">
         <span class="foto">${foto}</span>
@@ -103,9 +93,7 @@ document.querySelector(".abas-links").addEventListener("click", (e) => {
 // Pesquisa: filtra enquanto digita
 campoBusca.addEventListener("input", renderizar);
 
-/* ---------- 6. CARRINHO ----------
-   Os cards são criados pelo JS, então usamos "delegação de eventos":
-   um único listener no catálogo descobre qual card foi clicado. */
+/* ----------CARRINHO ----------*/
 catalogo.addEventListener("click", (e) => {
     const card = e.target.closest(".card");
     if (!card) return;
@@ -124,7 +112,7 @@ function atualizarContador() {
     qtdCarrinho.textContent = carrinho.reduce((total, i) => total + i.qtd, 0);
 }
 
-/* ---------- 7. CONTA (login e cadastro) ---------- */
+/* ---------- CONTA (login e cadastro) ---------- */
 const soDigitos = (texto) => texto.replace(/\D/g, ""); // "(55) 9 1234" -> "5591234"
 
 function atualizarConta() {
@@ -196,7 +184,7 @@ document.getElementById("form-entrar").addEventListener("submit", (e) => {
     entrar(usuario);
 });
 
-/* ---------- 8. INÍCIO ---------- */
+/* ----------INÍCIO ---------- */
 renderizar();
 atualizarContador();
 atualizarConta();
