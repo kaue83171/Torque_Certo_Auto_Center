@@ -1,4 +1,4 @@
-/* ===== Variáveis: mudar a cor aqui muda o site todo ===== */
+
 :root {
   --fundo: #111720;
   --superficie: #1c2430;
@@ -86,7 +86,7 @@ input:focus-visible {
   font-weight: 700;
 }
 
-/* CABEÇALHO.  */
+
 .faixa {
   padding: 9px 0;
   background: var(--laranja);
@@ -265,7 +265,7 @@ input:focus-visible {
   font-size: 11px;
 }
 
-/*  Hero.  */
+
 .hero {
   display: grid;
   grid-template-columns: 1.15fr 1fr;
@@ -352,7 +352,7 @@ input:focus-visible {
 }
 
 
-/* ===== Catálogo ===== */
+
 
 #area-catalogo {
   scroll-margin-top: 24px;
@@ -629,7 +629,7 @@ footer nav {
   gap: 16px;
 }
 
-/* ===== Modal de conta ===== */
+
 .modal {
   width: min(500px, calc(100% - 32px));
   max-height: 85vh;
@@ -780,7 +780,7 @@ footer nav {
   display: none;
 }
 
-/* ===== Carrinho (modal) ===== */
+
 .item-carrinho { align-items: center; }
 .item-acoes { display: flex; flex-direction: column; align-items: flex-end; gap: 4px; flex-shrink: 0; }
 .qtd-controle { display: inline-flex; align-items: center; border: 1px solid var(--borda); border-radius: 5px; overflow: hidden; }
@@ -794,7 +794,7 @@ footer nav {
 .modal-corpo .vazio { padding: 28px 0; }
 
 
-/* ===== Janela de peças e serviços por categoria ===== */
+
 .modal-categoria {
   width: min(1050px, calc(100% - 32px));
   max-height: 90vh;
@@ -821,7 +821,7 @@ footer nav {
   grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
-/* ===== Tablet ===== */
+
 @media (max-width: 900px) {
   .hero { grid-template-columns: 1fr; }
   .hero-foto { min-height: 220px; order: -1; }
@@ -833,7 +833,7 @@ footer nav {
   .busca { margin-top: 12px; }
 }
 
-/* ===== Celular ===== */
+
 @media (max-width: 640px) {
   .topo {
     gap: 8px;

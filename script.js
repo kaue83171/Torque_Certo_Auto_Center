@@ -1,11 +1,7 @@
-/* ---------- 1. DADOS ----------
-   min / max = faixa de preço da mão de obra (tabela 2.2 do PDF).
-     - min e max iguais  -> preço fixo
-     - max: null         -> "a partir de" (ex.: diagnóstico + serviço)
-     - min: null         -> sem preço fixo, "sob consulta"                */
+
 let PRODUTOS = [];
 
-// Nome que aparece na etiqueta do card, para cada categoria
+
 const ROTULO = { carros: "Carro", motos: "Moto", servicos: "Serviço" };
 
 const SECOES = [
@@ -14,13 +10,11 @@ const SECOES = [
     ["servicos", "Serviços"],
 ];
 
-/* ----------  FUNÇÕES DO localStorage ----------
-   O localStorage só guarda texto, por isso usamos
-   JSON.stringify (objeto -> texto) e JSON.parse (texto -> objeto). */
+
 function ler(chave, padrao) {
     try {
         const valor = JSON.parse(localStorage.getItem(chave));
-        return valor ?? padrao; // se não existir, usa o valor padrão
+        return valor ?? padrao; 
     } catch {
         return padrao;
     }
@@ -29,17 +23,17 @@ function salvar(chave, valor) {
     localStorage.setItem(chave, JSON.stringify(valor));
 }
 
-/* ---------- ESTADO  ---------- */
-let abaAtual = "geral";
-let usuarios = ler("tc_usuarios", []);  // [{ nome, telefone, senha }]
-let sessao = ler("tc_sessao", null);    // usuário logado ou null
 
-// Carrinho: [{ id, qtd }]. Descarta o que está corrompido ou que não existe mais na lista.
+let abaAtual = "geral";
+let usuarios = ler("tc_usuarios", []);  
+let sessao = ler("tc_sessao", null);    
+
+
 let carrinho = ler("tc_carrinho", []);
 if (!Array.isArray(carrinho)) carrinho = [];
 carrinho = carrinho.filter((i) => PRODUTOS.some((p) => p.id === i.id) && i.qtd > 0);
 
-/* ---------- ELEMENTOS DA PÁGINA ---------- */
+
 const catalogo = document.getElementById("catalogo");
 const btnMenu = document.getElementById("btn-menu");
 const menuPrincipal = document.getElementById("menu-principal");
@@ -60,11 +54,11 @@ const itensCarrinho = document.getElementById("itens-carrinho");
 const totalCarrinho = document.getElementById("total-carrinho");
 const aviso = document.getElementById("aviso");
 
-/* ---------- FUNÇÕES AUXILIARES ---------- */
+
 
 const brl = (n) => n.toLocaleString("pt-BR", { style: "currency", currency: "BRL", minimumFractionDigits: 0 });
 
-// Texto do preço de UM produto
+
 function textoPreco(p) {
     if (p.min == null) return "Sob consulta";
     if (p.max == null) return `A partir de ${brl(p.min)}`;
@@ -72,7 +66,7 @@ function textoPreco(p) {
     return `${brl(p.min)} a ${brl(p.max)}`;
 }
 
-// Mensagem rápida que aparece embaixo da tela por 2,5 segundos
+
 let temporizadorAviso;
 function avisar(mensagem) {
     aviso.textContent = mensagem;
@@ -80,13 +74,13 @@ function avisar(mensagem) {
     temporizadorAviso = setTimeout(() => (aviso.textContent = ""), 2500);
 }
 
-/* ---------- CATÁLOGO ---------- */
+
 const ICONE_FOTO = `<span class="foto-legenda">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="11" r="1.8"/><path d="m21 16-5-5-8 8"/></svg>
     <span>Foto em breve</span></span>`;
 
 function cardHTML(p) {
-    // Peças ficam inteiras dentro do quadro ("conter"); fotos de serviço preenchem o quadro
+    
     const classeFoto = p.categoria === "servicos" ? "foto" : "foto conter";
     const foto = p.imagem
         ? `<div class="${classeFoto}"><img src="${p.imagem}" alt="">`
@@ -106,7 +100,7 @@ function cardHTML(p) {
     </article>`;
 }
 
-// Se a foto não carregar (arquivo ausente), troca pelo quadro "Foto em breve"
+
 function tratarFotosQuebradas(alvo = catalogo) {
     alvo.querySelectorAll(".foto img").forEach((img) => {
         const semFoto = () => {
@@ -132,7 +126,7 @@ function renderizar() {
     tratarFotosQuebradas();
 }
 
-/* ---------- MENU PRINCIPAL E JANELAS DE CATEGORIA ---------- */
+
 function fecharMenu() {
     menuPrincipal.hidden = true;
     btnMenu.setAttribute("aria-expanded", "false");
@@ -144,7 +138,7 @@ btnMenu.addEventListener("click", () => {
     btnMenu.setAttribute("aria-expanded", String(vaiAbrir));
 });
 
-// Fecha o menu ao clicar fora dele ou pressionar Esc.
+
 document.addEventListener("click", (e) => {
     if (!e.target.closest(".menu-container")) fecharMenu();
 });
@@ -190,14 +184,14 @@ menuPrincipal.addEventListener("click", (e) => {
     abrirCategoria(opcao.dataset.categoria);
 });
 
-// Os botões de adicionar dos cards da janela usam o mesmo carrinho do catálogo principal.
+
 catalogoCategoria.addEventListener("click", (e) => {
     const botao = e.target.closest(".adicionar");
     if (!botao) return;
     adicionarAoCarrinho(Number(botao.dataset.id));
 });
 
-// Troca de aba
+
 document.querySelector(".abas-links").addEventListener("click", (e) => {
     const botao = e.target.closest(".aba");
     if (!botao) return;
@@ -209,13 +203,11 @@ document.querySelector(".abas-links").addEventListener("click", (e) => {
     renderizar();
 });
 
-// Pesquisa: filtra enquanto digita
+
 campoBusca.addEventListener("input", renderizar);
 
 
-/* ---------- . CARRINHO ----------
-   Os cards são criados pelo JS, então usamos "delegação de eventos":
-   um único listener no catálogo descobre qual botão "+" foi clicado. */
+
 catalogo.addEventListener("click", (e) => {
     const botao = e.target.closest(".adicionar");
     if (!botao) return;
@@ -236,7 +228,7 @@ function adicionarAoCarrinho(id) {
     avisar(`${PRODUTOS.find((p) => p.id === id).nome} adicionado ao carrinho`);
 }
 
-// delta = +1 (aumentar) ou -1 (diminuir). Quando chega a 0, o item sai do carrinho.
+
 function alterarQuantidade(id, delta) {
     const item = carrinho.find((i) => i.id === id);
     if (!item) return;
@@ -254,7 +246,7 @@ function atualizarContador() {
     qtdCarrinho.textContent = carrinho.reduce((total, i) => total + i.qtd, 0);
 }
 
-// Soma as faixas de preço de todos os itens e devolve o texto do total
+
 function calcularTotal() {
     let min = 0, max = 0, temPreco = false, aberto = false, semPreco = false;
     for (const { id, qtd } of carrinho) {
@@ -262,7 +254,7 @@ function calcularTotal() {
         if (p.min == null) { semPreco = true; continue; }
         temPreco = true;
         min += p.min * qtd;
-        if (p.max == null) aberto = true;   // sem teto: só dá para dizer "a partir de"
+        if (p.max == null) aberto = true;   
         else max += p.max * qtd;
     }
     let texto = "Sob consulta";
@@ -270,7 +262,7 @@ function calcularTotal() {
     return { texto, semPreco, temPreco };
 }
 
-// Desenha a lista dentro do modal do carrinho
+
 function renderCarrinho() {
     if (carrinho.length === 0) {
         itensCarrinho.innerHTML = `<p class="vazio">Seu carrinho está vazio.</p>`;
@@ -321,8 +313,8 @@ btnCarrinho.addEventListener("click", () => {
     modalCarrinho.showModal();
 });
 
-/* ---------- CONTA (login e cadastro) ---------- */
-const soDigitos = (texto) => texto.replace(/\D/g, ""); // "(55) 9 1234" -> "5591234"
+
+const soDigitos = (texto) => texto.replace(/\D/g, ""); 
 
 function atualizarConta() {
     btnEntrar.textContent = sessao ? `Olá, ${sessao.nome.split(" ")[0]}` : "Entrar";
@@ -343,7 +335,7 @@ btnEntrar.addEventListener("click", () => {
         return;
     }
     mostrarPainel("entrar");
-    modalConta.showModal(); // abre o <dialog>
+    modalConta.showModal(); 
 });
 
 modalConta.addEventListener("click", (e) => {
@@ -360,7 +352,7 @@ function entrar(usuario) {
 }
 
 document.getElementById("form-criar").addEventListener("submit", (e) => {
-    e.preventDefault(); // impede a página de recarregar
+    e.preventDefault(); 
     const dados = new FormData(e.target);
     const telefone = soDigitos(dados.get("telefone"));
     const erro = document.querySelector('[data-erro="criar"]');
@@ -393,14 +385,14 @@ document.getElementById("form-entrar").addEventListener("submit", (e) => {
     entrar(usuario);
 });
 
-/* ---------- MODAIS (fechar) ----------*/
+
 document.addEventListener("click", (e) => {
     const fechar = e.target.closest("[data-fechar]");
     if (fechar) fechar.closest("dialog").close();
 });
 document.querySelectorAll("dialog").forEach((modal) => {
     modal.addEventListener("click", (e) => {
-        if (e.target !== modal) return; // clicou dentro do conteúdo
+        if (e.target !== modal) return; 
         const r = modal.getBoundingClientRect();
         const fora = e.clientX < r.left || e.clientX > r.right || e.clientY < r.top || e.clientY > r.bottom;
         if (fora) modal.close();
@@ -409,7 +401,7 @@ document.querySelectorAll("dialog").forEach((modal) => {
 
 btnAgenda.addEventListener("click", () => modalAgenda.showModal());
 
-/* ---------- INICIALIZAÇÃO ASSÍNCRONA VIA JSON ---------- */
+
 async function inicializarApp() {
     try {
         const resposta = await fetch('db.json');
@@ -418,7 +410,7 @@ async function inicializarApp() {
         const dados = await resposta.json();
         PRODUTOS = dados.produtos || [];
 
-        // Revalida o carrinho com os produtos recém-carregados do JSON
+        
         carrinho = ler("tc_carrinho", []);
         if (!Array.isArray(carrinho)) carrinho = [];
         carrinho = carrinho.filter((i) => PRODUTOS.some((p) => p.id === i.id) && i.qtd > 0);
@@ -434,7 +426,7 @@ async function inicializarApp() {
 
 inicializarApp();
 
-/* ----------INÍCIO ---------- */
+
 renderizar();
 atualizarContador();
 atualizarConta();
