@@ -7,11 +7,11 @@
     <title>Torque Certo Auto Center</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/png" href="img/logo.png">
 </head>
 
 <body>
 
-    
     <header class="topo">
         <div class="container topo-conteudo">
             <div class="menu-container">
@@ -71,12 +71,11 @@
                 <a class="btn-principal" href="#area-catalogo">Explorar catálogo <span aria-hidden="true">↗</span></a>
             </div>
             <div class="hero-foto">
-                <img src="img/serv/serv-alinha_balanc.png" alt="Profissional realizando a troca de óleo de um carro">
+                <img src="img/serv/serv-alinha_balanc.png" alt="Serviço de alinhamento e balanceamento em um carro">
 
             </div>
         </section>
 
-        
         <section id="area-catalogo" aria-labelledby="titulo-catalogo">
             <div class="catalogo-topo">
                 <div>
@@ -104,7 +103,7 @@
                 </aside>
                 <div class="catalogo-conteudo">
                     <p id="resultados" class="resultados" aria-live="polite"></p>
-                    
+
                     <div id="catalogo"></div>
                 </div>
             </div>
@@ -120,7 +119,6 @@
 
     </main>
 
-    
     <dialog id="modal-categoria" class="modal modal-categoria" aria-labelledby="titulo-categoria">
         <header class="modal-topo">
             <div>
@@ -133,7 +131,6 @@
         <div id="catalogo-categoria" class="catalogo-modal"></div>
     </dialog>
 
-    
     <dialog id="modal-conta" class="modal" aria-labelledby="titulo-conta">
         <header class="modal-topo">
             <h2 id="titulo-conta">Minha conta</h2><button type="button" class="fechar" data-fechar
@@ -177,14 +174,67 @@
     </dialog>
     <dialog id="modal-agenda" class="modal" aria-labelledby="titulo-agenda">
         <header class="modal-topo">
-            <h2 id="titulo-agenda">Meus agendamentos</h2><button type="button" class="fechar" data-fechar
-                aria-label="Fechar">×</button>
+            <h2 id="titulo-agenda">Meus agendamentos</h2>
+            <button type="button" class="fechar" data-fechar aria-label="Fechar">×</button>
         </header>
         <div class="modal-corpo">
-            <p>A tela de escolha de data, horário e veículo será uma próxima etapa. Este protótipo ainda não realiza
-                agendamentos.</p>
-            <div class="modal-rodape"><button type="button" class="btn-principal" data-fechar>Voltar ao
-                    catálogo</button></div>
+
+            <!-- tela 1: lista dos agendamentos do usuário -->
+            <div id="agenda-tela-lista">
+                <div id="agenda-lista"></div>
+                <div class="modal-rodape">
+                    <button type="button" class="btn-secundario" data-fechar>Fechar</button>
+                    <button type="button" class="btn-principal" id="btn-novo-agendamento">Novo agendamento</button>
+                </div>
+            </div>
+
+            <!-- tela 2: formulário de novo agendamento -->
+            <form id="form-agenda" class="form-agenda" hidden>
+                <p class="dica">Atendemos veículos leves (carros de passeio e utilitários pequenos).</p>
+                <label>Serviço
+                    <select name="servico" required></select>
+                </label>
+                <div class="linha-dupla">
+                    <label>Data
+                        <input name="data" type="date" required>
+                    </label>
+                    <label>Horário
+                        <select name="hora" required></select>
+                    </label>
+                </div>
+                <p class="dica" id="agenda-vagas"></p>
+
+                <fieldset>
+                    <legend>Veículo</legend>
+                    <div class="linha-dupla">
+                        <label>Placa
+                            <input name="placa" type="text" maxlength="8" placeholder="ABC1D23" required autocomplete="off">
+                        </label>
+                        <label>Modelo
+                            <input name="modelo" type="text" maxlength="40" placeholder="Ex.: Gol 1.0" required autocomplete="off">
+                        </label>
+                    </div>
+                    <div class="linha-dupla">
+                        <label>Ano
+                            <input name="ano" type="number" min="1980" max="2100" placeholder="2015" required>
+                        </label>
+                        <label>Quilometragem (opcional)
+                            <input name="km" type="number" min="0" placeholder="85000">
+                        </label>
+                    </div>
+                </fieldset>
+
+                <label class="check" id="agenda-sinal" hidden>
+                    <input name="sinal" type="checkbox">
+                    <span>Estou ciente do sinal de R$ 50, que será abatido do valor do serviço.</span>
+                </label>
+
+                <p class="erro" id="erro-agenda" role="alert"></p>
+                <div class="modal-rodape">
+                    <button type="button" class="btn-secundario" id="voltar-agenda">Voltar</button>
+                    <button type="submit" class="btn-principal">Confirmar agendamento</button>
+                </div>
+            </form>
         </div>
     </dialog>
     <p id="aviso" class="aviso" role="status" aria-live="polite"></p>

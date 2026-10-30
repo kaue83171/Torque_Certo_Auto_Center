@@ -97,8 +97,8 @@
       "imagem": "img/serv/bloco_de_motor.png",
       "descricao": "Consulte disponibilidade e preço no balcão.",
       "tempo": "",
-      "min": 1230,
-      "max": 1000
+      "min": 1000,
+      "max": 1230
     },
     {
       "id": 11,
