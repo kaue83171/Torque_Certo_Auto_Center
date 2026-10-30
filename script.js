@@ -21,7 +21,7 @@ const PRODUTOS = [
       descricao: "Valor confirmado no orçamento.", tempo: "", min: null, max: null },
 
     // Produtos (preço consultado no balcão)
-    { id: 8,  categoria: "carros",   nome: "Câmbio manual / Cx de marcha Chevrolet Vectra 2.0 1998", imagem: "",
+    { id: 8,  categoria: "carros",   nome: "Câmbio manual / Cx de marcha Chevrolet Vectra 2.0 1998", imagem: "img/serv/cambio_manual_cx.png",
       descricao: "Consulte disponibilidade e preço no balcão.", tempo: "", min: null, max: null },
     { id: 9,  categoria: "carros",   nome: "Turbocompressor Garrett GT2860RS (Disco Potato)",            imagem: "img/serv/turbocompressor.png",
       descricao: "Peças de reposição, lubrificantes, aditivos e acessórios.", tempo: "", min: null, max: null },
@@ -37,9 +37,21 @@ const PRODUTOS = [
       descricao: "Consulte disponibilidade e preço no balcão.", tempo: "", min: null, max: null },
     { id: 15,  categoria: "carros",   nome: "Válvula Wastegate TiAL MVR (44mm)",            imagem: "img/serv/valvula_wastegate.png",
       descricao: "Peças de reposição, lubrificantes, aditivos e acessórios.", tempo: "", min: null, max: null },
-    { id: 16, categoria: "motos",    nome: "Amortecedor CG Titan Fan 150 (par)", imagem: "",
+    { id: 16, categoria: "motos",    nome: "Amortecedor CG Titan Fan 150 (par)", imagem: "img/serv/amortecedor.png",
       descricao: "Consulte disponibilidade e preço no balcão.", tempo: "", min: null, max: null },
-    { id: 17, categoria: "motos",    nome: "Peças para moto",             imagem: "",
+    { id: 17, categoria: "motos",    nome: "Motor Harley-Davidson V-Twin (Estilo Panhead / Shovelhead Replicas)",             imagem: "img/serv/motor_moto.png",
+      descricao: "Consulte disponibilidade e preço no balcão.", tempo: "", min: null, max: null },
+    { id: 18, categoria: "motos",    nome: "Escapamento 2-em-1 Vance & Hines (Sportster / Softail)", imagem: "img/serv/escapamento.png",
+      descricao: "Consulte disponibilidade e preço no balcão.", tempo: "", min: null, max: null },
+    { id: 19, categoria: "motos",    nome: "Guidão Ape Hanger (Seca-Sovaco) 14",             imagem: "img/serv/guidao_seca_sovaco.png",
+      descricao: "Consulte disponibilidade e preço no balcão.", tempo: "", min: null, max: null },
+    { id: 20, categoria: "motos",    nome: "Comando Avançado de Pedaleiras (Forward Controls)", imagem: "img/serv/comando_avancado.png",
+      descricao: "Consulte disponibilidade e preço no balcão.", tempo: "", min: null, max: null },
+    { id: 21, categoria: "motos",    nome: "Carburador Mikuni HSR42 mm",             imagem: "img/serv/carburador_mikuni.png",
+      descricao: "Consulte disponibilidade e preço no balcão.", tempo: "", min: null, max: null },
+    { id: 22, categoria: "motos",    nome: "Filtro de Ar High-Flow Spike", imagem: "img/serv/filtro_de_ar.png",
+      descricao: "Consulte disponibilidade e preço no balcão.", tempo: "", min: null, max: null },
+    { id: 23, categoria: "motos",    nome: "Tanque de Óleo Estilo Horseshoe (Cárter Seco)",             imagem: "img/serv/tanque_de_oleo.png",
       descricao: "Consulte disponibilidade e preço no balcão.", tempo: "", min: null, max: null },
 ];
 
