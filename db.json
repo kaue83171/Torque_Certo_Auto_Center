@@ -4,7 +4,7 @@
       "id": 1,
       "categoria": "servicos",
       "nome": "Revisão preventiva",
-      "imagem": "img/serv/serv-revisao.jpg",
+      "imagem": "img/serv/serv-prev.png",
       "descricao": "Troca de óleo e filtros, inspeção de 25 itens e checklist por quilometragem.",
       "tempo": "2 a 3 h",
       "min": 150,
