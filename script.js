@@ -79,6 +79,12 @@ carrinho = carrinho.filter((i) => PRODUTOS.some((p) => p.id === i.id) && i.qtd >
 
 /* ---------- ELEMENTOS DA PÁGINA ---------- */
 const catalogo = document.getElementById("catalogo");
+const btnMenu = document.getElementById("btn-menu");
+const menuPrincipal = document.getElementById("menu-principal");
+const catalogoCategoria = document.getElementById("catalogo-categoria");
+const modalCategoria = document.getElementById("modal-categoria");
+const tituloCategoria = document.getElementById("titulo-categoria");
+const descricaoCategoria = document.getElementById("descricao-categoria");
 const campoBusca = document.getElementById("busca");
 const resultados = document.getElementById("resultados");
 const qtdCarrinho = document.getElementById("qtd-carrinho");
@@ -139,8 +145,8 @@ function cardHTML(p) {
 }
 
 // Se a foto não carregar (arquivo ausente), troca pelo quadro "Foto em breve"
-function tratarFotosQuebradas() {
-    catalogo.querySelectorAll(".foto img").forEach((img) => {
+function tratarFotosQuebradas(alvo = catalogo) {
+    alvo.querySelectorAll(".foto img").forEach((img) => {
         const semFoto = () => {
             const quadro = img.parentElement;
             quadro.classList.add("sem-foto");
@@ -163,6 +169,71 @@ function renderizar() {
     resultados.textContent = `${itens.length} ${itens.length === 1 ? "item" : "itens"}`;
     tratarFotosQuebradas();
 }
+
+/* ---------- MENU PRINCIPAL E JANELAS DE CATEGORIA ---------- */
+function fecharMenu() {
+    menuPrincipal.hidden = true;
+    btnMenu.setAttribute("aria-expanded", "false");
+}
+
+btnMenu.addEventListener("click", () => {
+    const vaiAbrir = menuPrincipal.hidden;
+    menuPrincipal.hidden = !vaiAbrir;
+    btnMenu.setAttribute("aria-expanded", String(vaiAbrir));
+});
+
+// Fecha o menu ao clicar fora dele ou pressionar Esc.
+document.addEventListener("click", (e) => {
+    if (!e.target.closest(".menu-container")) fecharMenu();
+});
+
+document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") fecharMenu();
+});
+
+const INFO_CATEGORIAS = {
+    carros: {
+        titulo: "Peças para carros",
+        descricao: "Confira as peças e os componentes automotivos cadastrados no catálogo."
+    },
+    motos: {
+        titulo: "Peças para motos",
+        descricao: "Confira as peças e os componentes para motocicletas cadastrados no catálogo."
+    },
+    servicos: {
+        titulo: "Serviços automotivos",
+        descricao: "Confira os serviços de manutenção e os valores de mão de obra disponíveis."
+    }
+};
+
+function abrirCategoria(categoria) {
+    const informacoes = INFO_CATEGORIAS[categoria];
+    if (!informacoes) return;
+
+    const itens = PRODUTOS.filter((produto) => produto.categoria === categoria);
+    tituloCategoria.textContent = informacoes.titulo;
+    descricaoCategoria.textContent = informacoes.descricao;
+    catalogoCategoria.innerHTML = itens.length
+        ? `<div class="grade">${itens.map(cardHTML).join("")}</div>`
+        : `<p class="vazio">Ainda não há itens cadastrados nesta categoria.</p>`;
+
+    tratarFotosQuebradas(catalogoCategoria);
+    fecharMenu();
+    modalCategoria.showModal();
+}
+
+menuPrincipal.addEventListener("click", (e) => {
+    const opcao = e.target.closest(".menu-opcao");
+    if (!opcao) return;
+    abrirCategoria(opcao.dataset.categoria);
+});
+
+// Os botões de adicionar dos cards da janela usam o mesmo carrinho do catálogo principal.
+catalogoCategoria.addEventListener("click", (e) => {
+    const botao = e.target.closest(".adicionar");
+    if (!botao) return;
+    adicionarAoCarrinho(Number(botao.dataset.id));
+});
 
 // Troca de aba
 document.querySelector(".abas-links").addEventListener("click", (e) => {

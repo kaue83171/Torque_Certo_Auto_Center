@@ -209,17 +209,60 @@ input:focus-visible {
   background: var(--texto);
 }
 
+.menu-container {
+  position: relative;
+  flex-shrink: 0;
+}
+
 .menu-painel {
+  position: absolute;
+  top: calc(100% + 12px);
+  left: 0;
+  z-index: 30;
+  display: grid;
+  gap: 6px;
+  width: min(270px, calc(100vw - 32px));
+  padding: 12px;
+  border: 1px solid var(--borda);
+  border-radius: 8px;
+  background: var(--superficie);
+  box-shadow: 0 12px 35px #0008;
+}
+
+.menu-titulo {
+  padding: 4px 8px 7px;
+  color: var(--texto-suave);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+
+.menu-opcao {
   display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-  padding-block: 18px;
-  border-bottom: 1px solid var(--borda);
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  width: 100%;
+  padding: 11px 12px;
+  border: 0;
+  border-radius: 5px;
+  background: transparent;
+  text-align: left;
+}
+
+.menu-opcao:hover,
+.menu-opcao:focus-visible {
+  background: var(--fundo);
+}
+
+.menu-opcao strong {
   font-size: 14px;
 }
 
-.menu-painel a {
-  text-underline-offset: 4px;
+.menu-opcao small {
+  color: var(--texto-suave);
+  font-size: 11px;
 }
 
 /*  Hero.  */
@@ -750,11 +793,40 @@ footer nav {
 .carrinho-total small { display: block; margin-top: 8px; color: var(--texto-suave); font-size: 12px; }
 .modal-corpo .vazio { padding: 28px 0; }
 
+
+/* ===== Janela de peças e serviços por categoria ===== */
+.modal-categoria {
+  width: min(1050px, calc(100% - 32px));
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.modal-categoria .modal-topo {
+  padding-bottom: 8px;
+}
+
+.modal-categoria .modal-topo .etiqueta {
+  margin-bottom: 4px;
+}
+
+.categoria-descricao {
+  padding: 0 24px 18px;
+}
+
+.catalogo-modal {
+  padding: 0 24px 24px;
+}
+
+.catalogo-modal .grade {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
 /* ===== Tablet ===== */
 @media (max-width: 900px) {
   .hero { grid-template-columns: 1fr; }
   .hero-foto { min-height: 220px; order: -1; }
   .grade { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .catalogo-modal .grade { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .layout-catalogo { grid-template-columns: 1fr; gap: 16px; }
   .abas-links { grid-auto-flow: column; grid-auto-columns: 1fr; }
   .aba { text-align: center; padding-inline: 8px; }
@@ -780,6 +852,7 @@ footer nav {
   .hero-texto { padding: 24px 20px; }
   .catalogo-topo { flex-direction: column; align-items: flex-start; }
   .grade { grid-template-columns: 1fr; }
+  .catalogo-modal .grade { grid-template-columns: 1fr; }
   .sobre { flex-direction: column; align-items: flex-start; }
   .item-carrinho { flex-direction: column; align-items: flex-start; }
   .item-acoes { flex-direction: row; align-items: center; width: 100%; justify-content: space-between; }

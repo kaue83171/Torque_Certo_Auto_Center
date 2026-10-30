@@ -14,10 +14,28 @@
     <!-- ===== CABEÇALHO: menu, logo, botão de entrada e ícones ===== -->
     <header class="topo">
         <div class="container topo-conteudo">
-            <button class="menu" id="btn-menu" type="button" aria-label="Abrir menu" aria-controls="menu-principal"
-                aria-expanded="false">
-                <span></span><span></span><span></span>
-            </button>
+            <div class="menu-container">
+                <button class="menu" id="btn-menu" type="button" aria-label="Abrir menu"
+                    aria-controls="menu-principal" aria-expanded="false" aria-haspopup="true">
+                    <span></span><span></span><span></span>
+                </button>
+                <div class="menu-painel" id="menu-principal" role="group"
+                    aria-label="Categorias do catálogo" hidden>
+                    <p class="menu-titulo">Explorar catálogo</p>
+                    <button class="menu-opcao" type="button" data-categoria="carros">
+                        <strong>Carros</strong>
+                        <small>Peças e componentes automotivos</small>
+                    </button>
+                    <button class="menu-opcao" type="button" data-categoria="motos">
+                        <strong>Motos</strong>
+                        <small>Peças e componentes para motos</small>
+                    </button>
+                    <button class="menu-opcao" type="button" data-categoria="servicos">
+                        <strong>Serviços</strong>
+                        <small>Manutenção e mão de obra</small>
+                    </button>
+                </div>
+            </div>
             <a class="marca" href="#inicio">
                 <img class="logo" src="img/social/logo.png" alt="Logo Torque Certo">
                 <span class="marca-texto">
@@ -102,8 +120,18 @@
 
     </main>
 
-    <!-- O JavaScript desenha os cards aqui dentro (o id precisa ser igual no CSS e no JS!) -->
-    <main id="catalogo"></main>
+    <!-- ===== JANELA DE CATEGORIA ABERTA PELO MENU ===== -->
+    <dialog id="modal-categoria" class="modal modal-categoria" aria-labelledby="titulo-categoria">
+        <header class="modal-topo">
+            <div>
+                <p class="etiqueta">CATÁLOGO TORQUE CERTO</p>
+                <h2 id="titulo-categoria">Categoria</h2>
+            </div>
+            <button type="button" class="fechar" data-fechar aria-label="Fechar">×</button>
+        </header>
+        <p id="descricao-categoria" class="dica categoria-descricao"></p>
+        <div id="catalogo-categoria" class="catalogo-modal"></div>
+    </dialog>
 
     <!-- ===== MODAL DE CONTA ===== -->
     <dialog id="modal-conta" class="modal" aria-labelledby="titulo-conta">
