@@ -3,57 +3,7 @@
      - min e max iguais  -> preço fixo
      - max: null         -> "a partir de" (ex.: diagnóstico + serviço)
      - min: null         -> sem preço fixo, "sob consulta"                */
-const PRODUTOS = [
-    // Serviços (PDF, seção 2.2)
-    { id: 1,  categoria: "servicos", nome: "Revisão preventiva",          imagem: "img/serv/serv-revisao.jpg",
-      descricao: "Troca de óleo e filtros, inspeção de 25 itens e checklist por quilometragem.", tempo: "2 a 3 h", min: 150, max: 350 },
-    { id: 2,  categoria: "servicos", nome: "Freios",                      imagem: "img/serv/serv-freio.png",
-      descricao: "Troca de pastilhas, discos e fluido, com sangria do sistema.", tempo: "2 a 4 h", min: 120, max: 400 },
-    { id: 3,  categoria: "servicos", nome: "Suspensão e direção",         imagem: "img/serv/serv-susp_dire.png",
-      descricao: "Amortecedores, buchas, pivôs, terminais e barra estabilizadora.", tempo: "3 a 6 h", min: 200, max: 700 },
-    { id: 4,  categoria: "servicos", nome: "Alinhamento e balanceamento", imagem: "img/serv/serv-alinha_balanc.png",
-      descricao: "Serviço rápido, em pacote único.", tempo: "1 h", min: 120, max: 120 },
-    { id: 5,  categoria: "servicos", nome: "Elétrica e injeção",          imagem: "img/serv/serv-eletr_inje.png",
-      descricao: "Diagnóstico com scanner, bateria, alternador, velas e bicos. Diagnóstico R$ 80 + serviço.", tempo: "1 a 2 dias", min: 80, max: null },
-    { id: 6,  categoria: "servicos", nome: "Motor e câmbio",              imagem: "img/serv/serv-motor_camb.png",
-      descricao: "Correia dentada, junta do cabeçote, embreagem e retífica terceirizada.", tempo: "2 a 7 dias", min: 400, max: 2500 },
-    { id: 7,  categoria: "servicos", nome: "Troca de óleo",               imagem: "img/serv/serv-troleo.png",
-      descricao: "Valor confirmado no orçamento.", tempo: "", min: null, max: null },
-
-    // Produtos (preço consultado no balcão)
-    { id: 8,  categoria: "carros",   nome: "Câmbio manual / Cx de marcha Chevrolet Vectra 2.0 1998", imagem: "img/serv/cambio_manual_cx.png",
-      descricao: "Consulte disponibilidade e preço no balcão.", tempo: "", min: null, max: null },
-    { id: 9,  categoria: "carros",   nome: "Turbocompressor Garrett GT2860RS (Disco Potato)",            imagem: "img/serv/turbocompressor.png",
-      descricao: "Peças de reposição, lubrificantes, aditivos e acessórios.", tempo: "", min: null, max: null },
-    { id: 10,  categoria: "carros",   nome: "Bloco de Motor Semifechado IAG / Subaru (EJ25)", imagem: "img/serv/bloco_de_motor.png",
-      descricao: "Consulte disponibilidade e preço no balcão.", tempo: "", min: null, max: null },
-    { id: 11,  categoria: "carros",   nome: "Bielas Forjadas Eagle (Aço 4340 H-Beam)",            imagem: "img/serv/biela_forjada.png",
-      descricao: "Peças de reposição, lubrificantes, aditivos e acessórios.", tempo: "", min: null, max: null },
-    { id: 12,  categoria: "carros",   nome: "Pistões Forjados JE Pistons", imagem: "img/serv/pistoes_forjados.png",
-      descricao: "Consulte disponibilidade e preço no balcão.", tempo: "", min: null, max: null },
-    { id: 13,  categoria: "carros",   nome: "Coletor de Admissão Skunk2 Pro Series",            imagem: "img/serv/coletor_de_admissao.png",
-      descricao: "Peças de reposição, lubrificantes, aditivos e acessórios.", tempo: "", min: null, max: null },
-    { id: 14,  categoria: "carros",   nome: "Comando de Válvulas Tomei Poncam (RB26DETT)", imagem: "img/serv/comando_de_valvulas.png",
-      descricao: "Consulte disponibilidade e preço no balcão.", tempo: "", min: null, max: null },
-    { id: 15,  categoria: "carros",   nome: "Válvula Wastegate TiAL MVR (44mm)",            imagem: "img/serv/valvula_wastegate.png",
-      descricao: "Peças de reposição, lubrificantes, aditivos e acessórios.", tempo: "", min: null, max: null },
-    { id: 16, categoria: "motos",    nome: "Amortecedor CG Titan Fan 150 (par)", imagem: "img/serv/amortecedor.png",
-      descricao: "Consulte disponibilidade e preço no balcão.", tempo: "", min: null, max: null },
-    { id: 17, categoria: "motos",    nome: "Motor Harley-Davidson V-Twin (Estilo Panhead / Shovelhead Replicas)",             imagem: "img/serv/motor_moto.png",
-      descricao: "Consulte disponibilidade e preço no balcão.", tempo: "", min: null, max: null },
-    { id: 18, categoria: "motos",    nome: "Escapamento 2-em-1 Vance & Hines (Sportster / Softail)", imagem: "img/serv/escapamento.png",
-      descricao: "Consulte disponibilidade e preço no balcão.", tempo: "", min: null, max: null },
-    { id: 19, categoria: "motos",    nome: "Guidão Ape Hanger (Seca-Sovaco) 14",             imagem: "img/serv/guidao_seca_sovaco.png",
-      descricao: "Consulte disponibilidade e preço no balcão.", tempo: "", min: null, max: null },
-    { id: 20, categoria: "motos",    nome: "Comando Avançado de Pedaleiras (Forward Controls)", imagem: "img/serv/comando_avancado.png",
-      descricao: "Consulte disponibilidade e preço no balcão.", tempo: "", min: null, max: null },
-    { id: 21, categoria: "motos",    nome: "Carburador Mikuni HSR42 mm",             imagem: "img/serv/carburador_mikuni.png",
-      descricao: "Consulte disponibilidade e preço no balcão.", tempo: "", min: null, max: null },
-    { id: 22, categoria: "motos",    nome: "Filtro de Ar High-Flow Spike", imagem: "img/serv/filtro_de_ar.png",
-      descricao: "Consulte disponibilidade e preço no balcão.", tempo: "", min: null, max: null },
-    { id: 23, categoria: "motos",    nome: "Tanque de Óleo Estilo Horseshoe (Cárter Seco)",             imagem: "img/serv/tanque_de_oleo.png",
-      descricao: "Consulte disponibilidade e preço no balcão.", tempo: "", min: null, max: null },
-];
+let PRODUTOS = [];
 
 // Nome que aparece na etiqueta do card, para cada categoria
 const ROTULO = { carros: "Carro", motos: "Moto", servicos: "Serviço" };
@@ -458,6 +408,31 @@ document.querySelectorAll("dialog").forEach((modal) => {
 });
 
 btnAgenda.addEventListener("click", () => modalAgenda.showModal());
+
+/* ---------- INICIALIZAÇÃO ASSÍNCRONA VIA JSON ---------- */
+async function inicializarApp() {
+    try {
+        const resposta = await fetch('db.json');
+        if (!resposta.ok) throw new Error('Erro ao carregar o banco de dados fake.');
+        
+        const dados = await resposta.json();
+        PRODUTOS = dados.produtos || [];
+
+        // Revalida o carrinho com os produtos recém-carregados do JSON
+        carrinho = ler("tc_carrinho", []);
+        if (!Array.isArray(carrinho)) carrinho = [];
+        carrinho = carrinho.filter((i) => PRODUTOS.some((p) => p.id === i.id) && i.qtd > 0);
+
+        renderizar();
+        atualizarContador();
+        atualizarConta();
+    } catch (erro) {
+        console.error(erro);
+        catalogo.innerHTML = `<p class="vazio">Erro ao carregar os dados do catálogo. Certifique-se de estar rodando em um servidor local (Live Server).</p>`;
+    }
+}
+
+inicializarApp();
 
 /* ----------INÍCIO ---------- */
 renderizar();
