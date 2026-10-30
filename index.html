@@ -15,12 +15,11 @@
     <header class="topo">
         <div class="container topo-conteudo">
             <div class="menu-container">
-                <button class="menu" id="btn-menu" type="button" aria-label="Abrir menu"
-                    aria-controls="menu-principal" aria-expanded="false" aria-haspopup="true">
+                <button class="menu" id="btn-menu" type="button" aria-label="Abrir menu" aria-controls="menu-principal"
+                    aria-expanded="false" aria-haspopup="true">
                     <span></span><span></span><span></span>
                 </button>
-                <div class="menu-painel" id="menu-principal" role="group"
-                    aria-label="Categorias do catálogo" hidden>
+                <div class="menu-painel" id="menu-principal" role="group" aria-label="Categorias do catálogo" hidden>
                     <p class="menu-titulo">Explorar catálogo</p>
                     <button class="menu-opcao" type="button" data-categoria="carros">
                         <strong>Carros</strong>
@@ -158,18 +157,141 @@
                 type="submit">Cadastrar</button>
         </form>
     </dialog>
-    <dialog id="modal-carrinho" class="modal" aria-labelledby="titulo-carrinho">
+    <dialog id="modal-carrinho" class="modal modal-pagamento" aria-labelledby="titulo-carrinho">
         <header class="modal-topo">
-            <h2 id="titulo-carrinho">Seu carrinho</h2><button type="button" class="fechar" data-fechar
-                aria-label="Fechar">×</button>
+            <h2 id="titulo-carrinho">Seu carrinho</h2>
+
+            <button type="button" class="fechar" data-fechar aria-label="Fechar">×</button>
         </header>
+
         <div class="modal-corpo">
-            <p class="dica">Seleção para demonstração de orçamento. Nenhum pedido é enviado.</p>
+            <p class="dica">
+                Escolha como deseja pagar.
+                Simulação acadêmica: nenhuma cobrança é realizada.
+            </p>
+
             <div id="itens-carrinho"></div>
+
             <div id="total-carrinho" class="carrinho-total" aria-live="polite" hidden></div>
-            <div class="modal-rodape"><button type="button" id="limpar-carrinho" class="btn-secundario">Limpar
-                    carrinho</button><button type="button" class="btn-principal" data-fechar>Continuar
-                    explorando</button></div>
+
+            <form id="form-pagamento" class="form-pagamento" novalidate hidden>
+                <fieldset class="pagamento-metodos">
+                    <legend>Como deseja pagar?</legend>
+
+                    <div class="pagamento-opcoes">
+                        <label class="pagamento-opcao">
+                            <input type="radio" name="forma" value="pix">
+
+                            <span>
+                                <strong>Pix</strong>
+                                <small>À vista</small>
+                            </span>
+                        </label>
+
+                        <label class="pagamento-opcao">
+                            <input type="radio" name="forma" value="cartao">
+
+                            <span>
+                                <strong>Cartão</strong>
+                                <small>Crédito ou débito</small>
+                            </span>
+                        </label>
+
+                        <label class="pagamento-opcao">
+                            <input type="radio" name="forma" value="dinheiro">
+
+                            <span>
+                                <strong>Dinheiro</strong>
+                                <small>No atendimento</small>
+                            </span>
+                        </label>
+                    </div>
+                </fieldset>
+
+                <p id="pagamento-estimativa" class="pagamento-nota"></p>
+
+                <!-- Informações do Pix -->
+                <div class="pagamento-detalhe" data-forma="pix" hidden>
+                    <h3>Pagamento por Pix</h3>
+
+                    <p>
+                        A chave ou cobrança Pix será informada pela oficina
+                        após a definição do orçamento.
+                    </p>
+                </div>
+
+                <!-- Informações do cartão -->
+                <div class="pagamento-detalhe" data-forma="cartao" hidden>
+                    <label for="tipo-cartao">Tipo de cartão</label>
+
+                    <select id="tipo-cartao" name="tipoCartao" disabled>
+                        <option value="credito">Crédito</option>
+                        <option value="debito">Débito</option>
+                    </select>
+
+                    <p>
+                        Pagamento no atendimento. Escolha crédito ou débito
+                        para registrar sua preferência.
+                    </p>
+                </div>
+
+                <!-- Informações do dinheiro -->
+                <div class="pagamento-detalhe" data-forma="dinheiro" hidden>
+                    <h3>Pagamento em dinheiro</h3>
+
+                    <label class="pagamento-check">
+                        <input id="precisa-troco" type="checkbox" name="precisaTroco" disabled>
+                        Preciso de troco
+                    </label>
+
+                    <p id="troco-orientacao"></p>
+
+                    <div id="campo-valor-recebido" class="pagamento-valor" hidden>
+                        <label for="valor-recebido">
+                            Vai pagar com quanto? (R$)
+                        </label>
+
+                        <input id="valor-recebido" name="valorRecebido" type="number" step="0.01" min="0"
+                            inputmode="decimal" placeholder="Ex.: 150,00" disabled>
+
+                        <p id="troco-calculado" aria-live="polite"></p>
+                    </div>
+                </div>
+
+                <p class="erro" id="erro-pagamento" role="alert"></p>
+
+                <button type="submit" class="btn-principal finalizar-pagamento">
+                    Finalizar pedido demonstrativo
+                </button>
+            </form>
+
+            <!-- Resumo mostrado após finalizar -->
+            <section id="resultado-pagamento" class="pagamento-resultado" aria-labelledby="titulo-resultado-pagamento"
+                hidden>
+                <p class="etiqueta">SIMULAÇÃO CONCLUÍDA</p>
+
+                <h3 id="titulo-resultado-pagamento" tabindex="-1">
+                    Pedido demonstrativo registrado
+                </h3>
+
+                <div id="resumo-pagamento" aria-live="polite"></div>
+
+                <p class="dica">
+                    Este registro fica apenas neste navegador.
+                    Nenhum valor foi cobrado.
+                    A oficina ainda precisa confirmar o orçamento.
+                </p>
+            </section>
+
+            <div class="modal-rodape">
+                <button type="button" id="limpar-carrinho" class="btn-secundario">
+                    Limpar carrinho
+                </button>
+
+                <button type="button" class="btn-principal" data-fechar>
+                    Continuar explorando
+                </button>
+            </div>
         </div>
     </dialog>
     <dialog id="modal-agenda" class="modal" aria-labelledby="titulo-agenda">
@@ -208,10 +330,12 @@
                     <legend>Veículo</legend>
                     <div class="linha-dupla">
                         <label>Placa
-                            <input name="placa" type="text" maxlength="8" placeholder="ABC1D23" required autocomplete="off">
+                            <input name="placa" type="text" maxlength="8" placeholder="ABC1D23" required
+                                autocomplete="off">
                         </label>
                         <label>Modelo
-                            <input name="modelo" type="text" maxlength="40" placeholder="Ex.: Gol 1.0" required autocomplete="off">
+                            <input name="modelo" type="text" maxlength="40" placeholder="Ex.: Gol 1.0" required
+                                autocomplete="off">
                         </label>
                     </div>
                     <div class="linha-dupla">

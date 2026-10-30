@@ -69,6 +69,12 @@ const modalCarrinho = document.getElementById("modal-carrinho");
 const modalAgenda = document.getElementById("modal-agenda");
 const itensCarrinho = document.getElementById("itens-carrinho");
 const totalCarrinho = document.getElementById("total-carrinho");
+const formPagamento = document.getElementById("form-pagamento");
+const erroPagamento = document.getElementById("erro-pagamento");
+const resultadoPagamento = document.getElementById("resultado-pagamento");
+const precisaTroco = document.getElementById("precisa-troco");
+const valorRecebido = document.getElementById("valor-recebido");
+let pagamentoConcluido = false;
 const telaLista = document.getElementById("agenda-tela-lista");
 const agendaLista = document.getElementById("agenda-lista");
 const formAgenda = document.getElementById("form-agenda");
@@ -218,6 +224,11 @@ menuPrincipal.addEventListener("click", (e) => {
 /* ---------- carrinho ---------- */
 
 function guardarCarrinho() {
+    // Alterar os itens permite iniciar outro pedido.
+    pagamentoConcluido = false;
+    resultadoPagamento.hidden = true;
+    erroPagamento.textContent = "";
+
     salvar("tc_carrinho", carrinho);
     atualizarContador();
     renderCarrinho();
@@ -269,10 +280,35 @@ function calcularTotal() {
         if (aberto) texto = `A partir de ${brl(min)}`;
         else texto = min === max ? brl(min) : `${brl(min)} a ${brl(max)}`;
     }
-    return { texto, semPreco: comPreco < carrinho.length };
+    const semPreco = comPreco < carrinho.length;
+
+    // O total precisa ser único para permitir calcular o troco.
+    const exato =
+        carrinho.length > 0 &&
+        !semPreco &&
+        !aberto &&
+        min === max;
+
+    return {
+        texto,
+        semPreco,
+        min,
+        max,
+        aberto,
+        comPreco,
+        exato
+    };
 }
 
 function renderCarrinho() {
+    itensCarrinho.hidden = pagamentoConcluido && carrinho.length === 0;
+
+    formPagamento.hidden = carrinho.length === 0;
+
+    document.getElementById("limpar-carrinho").disabled =
+        carrinho.length === 0;
+
+    atualizarPagamento();
     if (carrinho.length === 0) {
         itensCarrinho.innerHTML = `<p class="vazio">Seu carrinho está vazio.</p>`;
         totalCarrinho.hidden = true;
@@ -628,7 +664,340 @@ document.querySelectorAll("dialog").forEach((modal) => {
         if (fora) modal.close();
     });
 });
+/* ---------- pagamento demonstrativo ---------- */
 
+// Descobre qual forma de pagamento está marcada.
+function formaSelecionada() {
+    const selecionado = formPagamento.querySelector(
+        'input[name="forma"]:checked'
+    );
+
+    return selecionado ? selecionado.value : "";
+}
+
+// Mostra os campos da opção escolhida.
+function atualizarPagamento() {
+    const forma = formaSelecionada();
+    const total = calcularTotal();
+
+    formPagamento
+        .querySelectorAll(".pagamento-detalhe")
+        .forEach(painel => {
+            painel.hidden = painel.dataset.forma !== forma;
+        });
+
+    const tipoCartao = document.getElementById("tipo-cartao");
+    tipoCartao.disabled = forma !== "cartao";
+
+    const estimativa = document.getElementById(
+        "pagamento-estimativa"
+    );
+
+    estimativa.textContent = total.exato
+        ? `Valor único de referência: ${total.texto}. A confirmação é apenas uma simulação.`
+        : `Estimativa: ${total.texto}. O valor final depende do orçamento; sua forma de pagamento será registrada como preferência.`;
+
+    // O troco só pode ser calculado com um total definido.
+    precisaTroco.disabled =
+        forma !== "dinheiro" || !total.exato;
+
+    if (precisaTroco.disabled) {
+        precisaTroco.checked = false;
+    }
+
+    document.getElementById("troco-orientacao").textContent =
+        total.exato
+            ? "Se precisar de troco, informe o valor que entregará no atendimento."
+            : "O troco poderá ser calculado após a oficina definir um valor único para o orçamento.";
+
+    const mostrarValor =
+        forma === "dinheiro" &&
+        total.exato &&
+        precisaTroco.checked;
+
+    document.getElementById("campo-valor-recebido").hidden =
+        !mostrarValor;
+
+    valorRecebido.disabled = !mostrarValor;
+    valorRecebido.required = mostrarValor;
+    valorRecebido.min = total.exato
+        ? total.min.toFixed(2)
+        : "0";
+
+    if (!mostrarValor) {
+        valorRecebido.value = "";
+    }
+
+    atualizarTroco();
+}
+
+// Calcula a previsão de troco enquanto a pessoa digita.
+function atualizarTroco() {
+    const saida = document.getElementById("troco-calculado");
+    saida.textContent = "";
+
+    if (valorRecebido.disabled || valorRecebido.value === "") {
+        return;
+    }
+
+    const total = calcularTotal();
+    const recebido = Number(valorRecebido.value);
+    const centavos = Math.round(recebido * 100);
+
+    if (
+        !Number.isFinite(recebido) ||
+        !Number.isSafeInteger(centavos)
+    ) {
+        return;
+    }
+
+    const diferenca =
+        centavos - Math.round(total.min * 100);
+
+    saida.textContent = diferenca >= 0
+        ? `Troco previsto: ${brl(diferenca / 100)}`
+        : `Informe pelo menos ${brl(total.min)}.`;
+}
+
+// Atualiza os campos quando uma opção é alterada.
+formPagamento.addEventListener("change", () => {
+    erroPagamento.textContent = "";
+    atualizarPagamento();
+});
+
+// Atualiza o troco conforme o valor é digitado.
+valorRecebido.addEventListener("input", () => {
+    erroPagamento.textContent = "";
+    atualizarTroco();
+});
+
+// Confere os dados antes de finalizar.
+function validarPagamento() {
+    if (carrinho.length === 0) {
+        return "Adicione pelo menos um item ao carrinho.";
+    }
+
+    const forma = formaSelecionada();
+
+    if (!["pix", "cartao", "dinheiro"].includes(forma)) {
+        return "Escolha Pix, cartão ou dinheiro para continuar.";
+    }
+
+    const tipoCartao =
+        document.getElementById("tipo-cartao").value;
+
+    if (
+        forma === "cartao" &&
+        !["credito", "debito"].includes(tipoCartao)
+    ) {
+        return "Escolha crédito ou débito.";
+    }
+
+    const total = calcularTotal();
+
+    if (
+        forma === "dinheiro" &&
+        total.exato &&
+        precisaTroco.checked
+    ) {
+        const recebido = Number(valorRecebido.value);
+        const centavos = Math.round(recebido * 100);
+
+        if (
+            valorRecebido.value.trim() === "" ||
+            !Number.isFinite(recebido) ||
+            recebido < 0 ||
+            !Number.isSafeInteger(centavos)
+        ) {
+            return "Informe um valor válido para o pagamento em dinheiro.";
+        }
+
+        if (
+            Math.abs(recebido * 100 - centavos) > 0.000001
+        ) {
+            return "Use no máximo duas casas decimais.";
+        }
+
+        if (centavos < Math.round(total.min * 100)) {
+            return `O valor entregue deve ser de pelo menos ${brl(total.min)}.`;
+        }
+    }
+
+    return "";
+}
+
+// Monta o resumo do pedido demonstrativo.
+function mostrarConfirmacao(pedido) {
+    const rotulos = {
+        pix: "Pix",
+        cartao: "Cartão",
+        dinheiro: "Dinheiro"
+    };
+
+    let metodo = rotulos[pedido.pagamento.forma];
+
+    if (pedido.pagamento.tipoCartao) {
+        metodo += pedido.pagamento.tipoCartao === "credito"
+            ? " · Crédito"
+            : " · Débito";
+    }
+
+    // esc() já existe no seu projeto e protege o texto exibido.
+    const linha = (rotulo, valor) => `
+        <div class="pagamento-resumo-linha">
+            <span>${rotulo}</span>
+            <strong>${esc(valor)}</strong>
+        </div>
+    `;
+
+    const quantidade = pedido.itens.reduce(
+        (soma, item) => soma + item.qtd,
+        0
+    );
+
+    let html =
+        linha("Referência", pedido.id) +
+        linha("Itens selecionados", quantidade) +
+        linha("Forma de pagamento", metodo) +
+        linha("Valor de referência", pedido.estimativa.texto);
+
+    if (pedido.estimativa.semPreco) {
+        html += linha(
+            "Itens sob consulta",
+            "Não incluídos na estimativa"
+        );
+    }
+
+    if (pedido.pagamento.recebido != null) {
+        html += linha(
+            "Valor a entregar",
+            brl(pedido.pagamento.recebido)
+        );
+
+        html += linha(
+            "Troco previsto",
+            brl(pedido.pagamento.troco)
+        );
+    }
+
+    document.getElementById("resumo-pagamento").innerHTML =
+        html;
+
+    resultadoPagamento.hidden = false;
+
+    document
+        .getElementById("titulo-resultado-pagamento")
+        .focus();
+}
+
+// Finalização do formulário.
+formPagamento.addEventListener("submit", evento => {
+    evento.preventDefault();
+
+    // Evita finalizar o mesmo pedido novamente.
+    if (pagamentoConcluido) {
+        return;
+    }
+
+    const erro = validarPagamento();
+    erroPagamento.textContent = erro;
+
+    if (erro) {
+        return;
+    }
+
+    const total = calcularTotal();
+    const forma = formaSelecionada();
+    const pagamento = { forma };
+
+    if (forma === "cartao") {
+        pagamento.tipoCartao =
+            document.getElementById("tipo-cartao").value;
+    }
+
+    if (
+        forma === "dinheiro" &&
+        total.exato &&
+        precisaTroco.checked
+    ) {
+        const recebidoCentavos = Math.round(
+            Number(valorRecebido.value) * 100
+        );
+
+        pagamento.recebido = recebidoCentavos / 100;
+
+        pagamento.troco =
+            (
+                recebidoCentavos -
+                Math.round(total.min * 100)
+            ) / 100;
+    }
+
+    const pedido = {
+        id:
+            "TC-" +
+            Date.now().toString(36).toUpperCase() +
+            "-" +
+            Math.random()
+                .toString(36)
+                .slice(2, 5)
+                .toUpperCase(),
+
+        criadoEm: new Date().toISOString(),
+
+        status: "demonstrativo",
+
+        itens: carrinho.map(({ id, qtd }) => {
+            const produto = PRODUTOS.find(
+                p => p.id === id
+            );
+
+            return {
+                id,
+                qtd,
+                nome: produto.nome,
+                min: produto.min,
+                max: produto.max
+            };
+        }),
+
+        estimativa: {
+            texto: total.texto,
+            semPreco: total.semPreco,
+            exato: total.exato
+        },
+
+        pagamento
+    };
+
+    const salvos = ler("tc_pedidos", []);
+    const pedidos = Array.isArray(salvos) ? salvos : [];
+
+    try {
+        salvar("tc_carrinho", []);
+        salvar("tc_pedidos", [...pedidos, pedido]);
+    } catch {
+        // Tenta restaurar os itens se o registro falhar.
+        try {
+            salvar("tc_carrinho", carrinho);
+        } catch {
+            // Os itens continuam disponíveis em memória.
+        }
+
+        erroPagamento.textContent =
+            "Não foi possível salvar o pedido neste navegador. Seus itens continuam no carrinho.";
+
+        return;
+    }
+
+    carrinho = [];
+    pagamentoConcluido = true;
+
+    formPagamento.reset();
+    atualizarContador();
+    renderCarrinho();
+    mostrarConfirmacao(pedido);
+});
 /* ---------- início ---------- */
 
 async function iniciar() {
